@@ -26,6 +26,7 @@ class AttnProcessor(nn.Module):
         pulid_ortho: str = None,
         pulid_num_zero: int = 16,
         pulid_mode:str = None,
+        avalible_pulid = True,
         **kwargs
     ):
         residual = hidden_states
@@ -128,6 +129,7 @@ class PuLIDAttnProcessor(torch.nn.Module):
         pulid_ortho: str = None,
         pulid_num_zero: int = 16,
         pulid_mode:str = None,
+        avalible_pulid: bool = True,
         **kwargs
     ):
         original_hidden_states = self.original_attn_processor(
@@ -140,7 +142,7 @@ class PuLIDAttnProcessor(torch.nn.Module):
         )
 
         # for id embedding
-        if id_embedding is not None:
+        if id_embedding is not None and id_scale > 0 and avalible_pulid:
             if pulid_mode is not None:
                 if pulid_mode == 'fidelity':
                     pulid_num_zero = 8
